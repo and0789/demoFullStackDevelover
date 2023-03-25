@@ -10,7 +10,7 @@ import java.util.Optional;
 public class CustomerListDataAccessService implements CustomerDao {
 
 
-    private static List<Customer> customers;
+    private static final List<Customer> customers;
 
     static {
         customers = new ArrayList<>();
