@@ -13,7 +13,7 @@ public class CustomerService {
 
     private final CustomerDao customerDao;
 
-    public CustomerService(@Qualifier("jpa") CustomerDao customerDao) {
+    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 
@@ -41,10 +41,10 @@ public class CustomerService {
 
         // add
         Customer customer = new Customer(
-                        customerRegistrationRequest.name(),
-                        customerRegistrationRequest.email(),
-                        customerRegistrationRequest.age()
-                );
+                customerRegistrationRequest.name(),
+                customerRegistrationRequest.email(),
+                customerRegistrationRequest.age()
+        );
         customerDao.insertCustomer(customer);
     }
 

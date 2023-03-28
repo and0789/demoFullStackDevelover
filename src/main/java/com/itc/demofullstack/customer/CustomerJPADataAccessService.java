@@ -9,11 +9,12 @@ import java.util.Optional;
 @Repository("jpa")
 public class CustomerJPADataAccessService implements CustomerDao {
 
+    private final CustomerRepository customerRepository;
+
     public CustomerJPADataAccessService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    private final CustomerRepository customerRepository;
     @Override
     public List<Customer> selectAllCustomers() {
         return customerRepository.findAll();
