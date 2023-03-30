@@ -1,12 +1,17 @@
 package com.itc.demofullstack;
 
+import com.github.javafaker.Faker;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import javax.sql.DataSource;
 
 
 @Testcontainers
@@ -18,6 +23,7 @@ public abstract class AbstractTestcontainers {
                     .withDatabaseName("andreseptian-dao-unit-test")
                     .withUsername("andreseptian")
                     .withPassword("123456");
+    protected static final Faker FAKER = new Faker();
 
     @BeforeAll
     static void beforeAll() {
@@ -46,20 +52,19 @@ public abstract class AbstractTestcontainers {
         );
     }
 
-//    @Test
-//    void canStartPostgresDB() {
-//        assertThat(postgreSQLContainer.isRunning()).isTrue();
-//        assertThat(postgreSQLContainer.isCreated()).isTrue();
-//    }
+    private static DataSource getDataSource() {
+        return DataSourceBuilder.create()
+                .driverClassName(postgreSQLContainer.getDriverClassName())
+                .url(postgreSQLContainer.getJdbcUrl())
+                .username(postgreSQLContainer.getUsername())
+                .password(postgreSQLContainer.getPassword())
+                .build();
 
-//    @Test
-//    void canApplyDbMigrationsWithFlyway() {
-//        Flyway flyway = Flyway.configure().dataSource(
-//                postgreSQLContainer.getJdbcUrl(),
-//                postgreSQLContainer.getUsername(),
-//                postgreSQLContainer.getPassword()
-//        ).load();
-//        flyway.migrate();
-//        System.out.println();
-//    }
+    }
+
+    protected static JdbcTemplate getJdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
+    }
+
+
 }
