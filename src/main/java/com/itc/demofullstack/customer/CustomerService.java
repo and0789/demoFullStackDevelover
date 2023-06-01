@@ -4,38 +4,49 @@ import com.itc.demofullstack.exception.DuplicateResourceException;
 import com.itc.demofullstack.exception.RequestValidationException;
 import com.itc.demofullstack.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
 
     private final CustomerDao customerDao;
+    private final CustomerDTOMapper customerDTOMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao) {
+    public CustomerService(@Qualifier("jpa") CustomerDao customerDao,
+                           CustomerDTOMapper customerDTOMapper,
+                           PasswordEncoder passwordEncoder) {
         this.customerDao = customerDao;
+        this.customerDTOMapper = customerDTOMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Customer> getAllCustomers() {
-        return customerDao.selectAllCustomers();
+    public List<CustomerDTO> getAllCustomers() {
+        return customerDao.selectAllCustomers()
+                .stream()
+                .map(customerDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public Customer getCustomers(Integer id) {
+    public CustomerDTO getCustomer(Integer id) {
         return customerDao.selectCustomerById(id)
+                .map(customerDTOMapper)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "customer with id [%s] not found".formatted(id)
                 ));
     }
 
-    public void addCustomer(
-            CustomerRegistrationRequest customerRegistrationRequest) {
-
-        // check if email exist
+    public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
+        // check if email exists
         String email = customerRegistrationRequest.email();
-        if (customerDao.existCustomerWithEmail(customerRegistrationRequest.email())) {
+        if (customerDao.existsCustomerWithEmail(email)) {
             throw new DuplicateResourceException(
-                    "customer with email [%s] already exist".formatted(email)
+                    "email already taken"
             );
         }
 
@@ -43,13 +54,15 @@ public class CustomerService {
         Customer customer = new Customer(
                 customerRegistrationRequest.name(),
                 customerRegistrationRequest.email(),
-                customerRegistrationRequest.age()
-        );
+                passwordEncoder.encode(customerRegistrationRequest.password()),
+                customerRegistrationRequest.age(),
+                customerRegistrationRequest.gender());
+
         customerDao.insertCustomer(customer);
     }
 
     public void deleteCustomerById(Integer customerId) {
-        if (!customerDao.existCustomerById(customerId)) {
+        if (!customerDao.existsCustomerById(customerId)) {
             throw new ResourceNotFoundException(
                     "customer with id [%s] not found".formatted(customerId)
             );
@@ -58,10 +71,13 @@ public class CustomerService {
         customerDao.deleteCustomerById(customerId);
     }
 
-    public void updateCustomer(
-            Integer customerId,
-            CustomerUpdateRequest updateRequest) {
-        Customer customer = getCustomers(customerId);
+    public void updateCustomer(Integer customerId,
+                               CustomerUpdateRequest updateRequest) {
+        // TODO: for JPA use .getReferenceById(customerId) as it does does not bring object into memory and instead a reference
+        Customer customer = customerDao.selectCustomerById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "customer with id [%s] not found".formatted(customerId)
+                ));
 
         boolean changes = false;
 
@@ -76,7 +92,7 @@ public class CustomerService {
         }
 
         if (updateRequest.email() != null && !updateRequest.email().equals(customer.getEmail())) {
-            if (customerDao.existCustomerWithEmail(updateRequest.email())) {
+            if (customerDao.existsCustomerWithEmail(updateRequest.email())) {
                 throw new DuplicateResourceException(
                         "email already taken"
                 );
@@ -86,9 +102,7 @@ public class CustomerService {
         }
 
         if (!changes) {
-            throw new RequestValidationException(
-                    "no data changes found"
-            );
+            throw new RequestValidationException("no data changes found");
         }
 
         customerDao.updateCustomer(customer);

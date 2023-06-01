@@ -4,12 +4,15 @@ import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import com.itc.demofullstack.customer.Customer;
 import com.itc.demofullstack.customer.CustomerRepository;
+import com.itc.demofullstack.customer.Gender;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Random;
+import java.util.UUID;
 
 @SpringBootApplication
 public class DemoFullStackApplication {
@@ -18,7 +21,9 @@ public class DemoFullStackApplication {
     }
 
     @Bean
-    CommandLineRunner runner(CustomerRepository customerRepository) {
+    CommandLineRunner runner(
+            CustomerRepository customerRepository,
+            PasswordEncoder passwordEncoder) {
         return args -> {
             var faker = new Faker();
             Random random = new Random();
@@ -28,8 +33,8 @@ public class DemoFullStackApplication {
             Customer customer = new Customer(
                     firstName + " " + lastName,
                     name.firstName().toLowerCase() + "." + name.lastName().toLowerCase() + "@itc.ac.id",
-                    random.nextInt(16, 99)
-            );
+                    passwordEncoder.encode(UUID.randomUUID().toString()), random.nextInt(16, 99),
+                    Gender.MALE);
 
             customerRepository.save(customer);
         };

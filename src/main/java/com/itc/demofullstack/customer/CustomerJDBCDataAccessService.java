@@ -20,7 +20,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-                SELECT id, name, email, age
+                SELECT id, name, email, password, age, gender
                 FROM customer
                 """;
 
@@ -31,7 +31,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public Optional<Customer> selectCustomerById(Integer id) {
         var sql = """
-                SELECT id, name, email, age
+                SELECT id, name, email, password, age, gender
                 FROM customer
                 WHERE id = ?
                 """;
@@ -43,22 +43,24 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer(name, email, age) 
-                VALUES (?, ?, ?)
+                INSERT INTO customer(name, email, password, age, gender) 
+                VALUES (?, ?, ?, ?, ?)
                 """;
 
         int result = jdbcTemplate.update(
                 sql,
                 customer.getName(),
                 customer.getEmail(),
-                customer.getAge()
+                customer.getPassword(),
+                customer.getAge(),
+                customer.getGender().name()
         );
 
         System.out.println("jdbcTemplate.update = " + result);
     }
 
     @Override
-    public boolean existCustomerWithEmail(String email) {
+    public boolean existsCustomerWithEmail(String email) {
         var sql = """
                 SELECT count(id)
                 FROM customer
@@ -70,7 +72,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     }
 
     @Override
-    public boolean existCustomerById(Integer customerId) {
+    public boolean existsCustomerById(Integer customerId) {
         var sql = """
                 SELECT count(id)
                 FROM customer
@@ -120,5 +122,17 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
             );
             System.out.println("update customer email result " + result);
         }
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        var sql = """
+                SELECT id, name, email, password, age, gender
+                FROM customer
+                WHERE email = ?
+                """;
+        return jdbcTemplate.query(sql, customerRowMapper, email)
+                .stream()
+                .findFirst();
     }
 }
