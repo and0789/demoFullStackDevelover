@@ -23,8 +23,9 @@ import {MenuModule} from "primeng/menu";
 import {MessageModule} from "primeng/message";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FormsModule,
     InputTextModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ConfirmDialogModule,
+
   ],
   providers: [
     {
@@ -62,6 +65,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
       multi: true
     },
     MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })
