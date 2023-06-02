@@ -24,6 +24,7 @@ import {MessageModule} from "primeng/message";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {MessageService} from "primeng/api";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {MessageService} from "primeng/api";
     FormsModule,
     InputTextModule,
     HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
