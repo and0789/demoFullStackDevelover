@@ -1,63 +1,81 @@
 <div>
-  <h2>Title Here</h2>
+  <h2>{{ operation === 'create' ? 'New Customer ' : 'Update Customer' }}</h2>
   <div class="field">
-    <label for="firstname">Name</label>
-    <input
-      [(ngModel)]="customer.name"
-      id="firstname"
-      pInputText
-      placeholder="Insert your name"
-      type="text"
-      class="w-full mb-3"
-    >
-    <label for="email">Email</label>
-    <input
-      [(ngModel)]="customer.email"
-      id="email"
-      pInputText
-      placeholder="andreseptian@lkptc.or.id"
-      type="email"
-      class="w-full mb-3"
-    >
-    <label for="age">Age</label>
-    <input
-      [(ngModel)]="customer.age"
-      id="age"
-      pInputText
-      placeholder="34"
-      type="number"
-      class="w-full mb-3"
-    >
-    <label for="password">Password</label>
-    <input
-      [(ngModel)]="customer.password"
-      id="password"
-      pInputText
-      placeholder="Password"
-      type="password"
-      class="w-full mb-3"
-    >
-    <label for="gender">Gender</label>
-    <select
-      [(ngModel)]="customer.gender"
-      id="gender"
-      class="p-dropdown w-full custom-select mb-3"
-    >
-      <option value="">Select an Option</option>
-      <option value="MALE">MALE</option>
-      <option value="FEMALE">FEMALE</option>
-    </select>
+    <div>
+      <label for="firstname">Name</label>
+      <input
+        [(ngModel)]="customer.name"
+        id="firstname"
+        pInputText
+        placeholder="Insert your name"
+        type="text"
+        class="w-full mb-3"
+      >
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input
+        [(ngModel)]="customer.email"
+        id="email"
+        pInputText
+        placeholder="andreseptian@lkptc.or.id"
+        type="email"
+        class="w-full mb-3"
+      >
+    </div>
+
+    <div>
+      <label for="age">Age</label>
+      <input
+        [(ngModel)]="customer.age"
+        id="age"
+        pInputText
+        placeholder="34"
+        type="number"
+        class="w-full mb-3"
+      >
+    </div>
+
+    <div *ngIf="operation === 'create'">
+      <label for="password">Password</label>
+      <input
+        [(ngModel)]="customer.password"
+        id="password"
+        pInputText
+        placeholder="Password"
+        type="password"
+        class="w-full mb-3"
+      >
+    </div>
+
+    <div *ngIf="operation === 'create'">
+      <label for="gender">Gender</label>
+      <select
+        [(ngModel)]="customer.gender"
+        id="gender"
+        class="p-dropdown w-full custom-select mb-3"
+      >
+        <option value="">Select an Option</option>
+        <option value="MALE">MALE</option>
+        <option value="FEMALE">FEMALE</option>
+      </select>
+    </div>
+
   </div>
-  <button
-    [disabled]="!isCustomerValid"
-    (click)="onSubmit()"
-    pButton
-    label="Submit"
-    class="w-full"
-  ></button>
-  <button
-    pButton
-    label="Cancel"
-    class="w-full p-button-outlined p-button-danger mt-2"
-  ></button>
+  <div>
+    <button
+      [disabled]="!isCustomerValid"
+      (click)="onSubmit()"
+      pButton
+      label="Submit"
+      class="w-full"
+    ></button>
+    <button
+      (click)="onCancel()"
+      pButton
+      label="Cancel"
+      class="w-full p-button-outlined p-button-danger mt-2"
+    ></button>
+  </div>
+
 </div>
