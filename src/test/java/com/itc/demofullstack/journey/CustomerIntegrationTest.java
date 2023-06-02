@@ -242,7 +242,7 @@ public class CustomerIntegrationTest  {
         String newName = "Ali";
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                newName, null, null, null, null
+                newName, null, null
         );
 
         webTestClient.put()

@@ -169,7 +169,7 @@ class CustomerServiceTest {
         String newEmail = "alexandro@amigoscode.com";
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                "Alexandro", newEmail, "123456", 23, Gender.FEMALE);
+                "Alexandro", newEmail,  23 );
 
         when(customerDao.existsCustomerWithEmail(newEmail)).thenReturn(false);
 
@@ -198,7 +198,7 @@ class CustomerServiceTest {
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                "Alexandro", null, null, null, null);
+                "Alexandro", null, null );
 
         // When
         underTest.updateCustomer(id, updateRequest);
@@ -227,7 +227,7 @@ class CustomerServiceTest {
         String newEmail = "alexandro@amigoscode.com";
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                null, newEmail, null, null, null);
+                null, newEmail, null);
 
         when(customerDao.existsCustomerWithEmail(newEmail)).thenReturn(false);
 
@@ -256,7 +256,7 @@ class CustomerServiceTest {
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                null, null,null, 22, null);
+                null,null, 22);
 
         // When
         underTest.updateCustomer(id, updateRequest);
@@ -285,7 +285,7 @@ class CustomerServiceTest {
         String newEmail = "alexandro@amigoscode.com";
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                null, newEmail, null, null, null);
+                null, newEmail, null);
 
         when(customerDao.existsCustomerWithEmail(newEmail)).thenReturn(true);
 
@@ -308,7 +308,7 @@ class CustomerServiceTest {
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                customer.getName(), customer.getEmail(), customer.getPassword(), customer.getAge(), customer.getGender());
+                customer.getName(), customer.getEmail(),  customer.getAge());
 
         // When
         assertThatThrownBy(() -> underTest.updateCustomer(id, updateRequest))
