@@ -34,7 +34,7 @@ public class DemoFullStackApplication {
                     firstName + " " + lastName,
                     name.firstName().toLowerCase() + "." + name.lastName().toLowerCase() + "@itc.ac.id",
                     passwordEncoder.encode(UUID.randomUUID().toString()), random.nextInt(16, 99),
-                    Gender.MALE);
+                    Gender.FEMALE);
 
             customerRepository.save(customer);
         };

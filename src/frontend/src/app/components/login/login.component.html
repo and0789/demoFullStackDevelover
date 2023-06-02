@@ -1,0 +1,72 @@
+<div class="flex" style="height: 100vh">
+  <div class="col-6 m-3 flex flex-column justify-content-center">
+    <div class="m-auto">
+      <div class="text-center">
+        <p-avatar image="https://lkptc.or.id/wp-content/uploads/2022/04/Logo-LKPTC.png"
+                  styleClass="mr-2"
+                  size="xlarge"
+                  shape="circle"
+        ></p-avatar>
+
+        <h1>Sign in to your account</h1>
+      </div>
+
+      <div class="text-center">
+        <p-message
+          *ngIf="errorMsg"
+          severity="error"
+          [text]="errorMsg"
+          styleClass="mb-3"
+        ></p-message>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          [(ngModel)]="authenticationRequest.username"
+          id="email"
+          pInputText
+          placeholder="insert your email"
+          type="email"
+          class="w-full mb-3"
+        >
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          [(ngModel)]="authenticationRequest.password"
+          id="password"
+          pInputText
+          placeholder="Password"
+          type="password"
+          class="w-full mb-3"
+        >
+      </div>
+
+      <button
+        pButton
+        label="Login"
+        class="w-full"
+        (click)="login()"
+      ></button>
+
+      <button
+        pButton
+        label="Don't have an account? Signup now."
+        class="w-full p-button-link text-left p-0"
+      ></button>
+
+    </div>
+  </div>
+  <div class="col-6 flex flex-column justify-content-center align-items-center right-container">
+    <h1>
+      <a href="https://lkptc.or.id" target="_blank">Enroll Now</a>
+    </h1>
+    <img
+      class="background p-6 pt-0"
+      src="https://lkptc.or.id/wp-content/uploads/2022/09/cropped-cropped-cropped-IMG_20220729_114825-scaled-4.jpg" alt="jpg">
+  </div>
+</div>
+
+
