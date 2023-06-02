@@ -8,7 +8,7 @@
                   shape="circle"
         ></p-avatar>
 
-        <h1>Sign in to your account</h1>
+        <h1>Register for an account</h1>
       </div>
 
       <div class="text-center">
@@ -21,9 +21,21 @@
       </div>
 
       <div class="field">
+        <label for="name">Name</label>
+        <input
+          [(ngModel)]="customer.name"
+          id="name"
+          pInputText
+          placeholder="insert your name"
+          type="text"
+          class="w-full mb-3"
+        >
+      </div>
+
+      <div class="field">
         <label for="email">Email</label>
         <input
-          [(ngModel)]="authenticationRequest.username"
+          [(ngModel)]="customer.email"
           id="email"
           pInputText
           placeholder="insert your email"
@@ -35,7 +47,7 @@
       <div class="field">
         <label for="password">Password</label>
         <input
-          [(ngModel)]="authenticationRequest.password"
+          [(ngModel)]="customer.password"
           id="password"
           pInputText
           placeholder="Password"
@@ -44,18 +56,43 @@
         >
       </div>
 
+      <div class="field" >
+        <label for="gender">Gender</label>
+        <select
+          [(ngModel)]="customer.gender"
+          id="gender"
+          class="p-dropdown w-full custom-select mb-3"
+        >
+          <option value="">Select an Option</option>
+          <option value="MALE">MALE</option>
+          <option value="FEMALE">FEMALE</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="age">Age</label>
+        <input
+          [(ngModel)]="customer.age"
+          id="age"
+          pInputText
+          placeholder="insert your age"
+          type="number"
+          class="w-full mb-3"
+        >
+      </div>
+
       <button
+        (click)="createAccount()"
         pButton
-        label="Login"
+        label="Create an account"
         class="w-full"
-        (click)="login()"
       ></button>
 
       <button
+        (click)="login()"
         pButton
-        label="Don't have an account? Signup now."
+        label="Have an account? Login now."
         class="w-full p-button-link text-left p-0 mt-2"
-        (click)="register()"
       ></button>
 
     </div>

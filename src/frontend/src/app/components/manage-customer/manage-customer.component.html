@@ -1,7 +1,7 @@
 <div>
   <h2>{{ operation === 'create' ? 'New Customer ' : 'Update Customer' }}</h2>
   <div class="field">
-    <div>
+    <div class="field">
       <label for="firstname">Name</label>
       <input
         [(ngModel)]="customer.name"
@@ -12,43 +12,31 @@
         class="w-full mb-3"
       >
     </div>
-    <div>
+    <div class="field">
       <label for="email">Email</label>
       <input
         [(ngModel)]="customer.email"
         id="email"
         pInputText
-        placeholder="andreseptian@lkptc.or.id"
+        placeholder="insert your email"
         type="email"
         class="w-full mb-3"
       >
     </div>
 
-    <div>
-      <label for="age">Age</label>
-      <input
-        [(ngModel)]="customer.age"
-        id="age"
-        pInputText
-        placeholder="34"
-        type="number"
-        class="w-full mb-3"
-      >
-    </div>
-
-    <div *ngIf="operation === 'create'">
+    <div class="field" *ngIf="operation === 'create'">
       <label for="password">Password</label>
       <input
         [(ngModel)]="customer.password"
         id="password"
         pInputText
-        placeholder="Password"
+        placeholder="insert your password"
         type="password"
         class="w-full mb-3"
       >
     </div>
 
-    <div *ngIf="operation === 'create'">
+    <div class="field" *ngIf="operation === 'create'">
       <label for="gender">Gender</label>
       <select
         [(ngModel)]="customer.gender"
@@ -59,6 +47,18 @@
         <option value="MALE">MALE</option>
         <option value="FEMALE">FEMALE</option>
       </select>
+    </div>
+
+    <div class="field">
+      <label for="age">Age</label>
+      <input
+        [(ngModel)]="customer.age"
+        id="age"
+        pInputText
+        placeholder="insert your age"
+        type="number"
+        class="w-full mb-3"
+      >
     </div>
 
   </div>

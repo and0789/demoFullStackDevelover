@@ -26,6 +26,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     HeaderBarComponent,
     ManageCustomerComponent,
     MenuBarComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    RegisterComponent
   ],
   schemas: [NO_ERRORS_SCHEMA],
   imports: [

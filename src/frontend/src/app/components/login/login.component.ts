@@ -31,6 +31,10 @@ export class LoginComponent {
             this.errorMsg = 'Login and / or password is incorrect';
           }
         }
-      })
+      });
+  }
+
+  register() {
+    this.router.navigate(['register']);
   }
 }
